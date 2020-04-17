@@ -1,0 +1,90 @@
+$color:#1296db;
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .home-header{
+        margin-top: 10px;
+        font-size: 1.5rem;
+    }
+
+    .post-list{
+        display: grid;  
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 150px 150px 150px;
+        row-gap: 10px;
+        column-gap: 10px;
+        margin-top: 10px;
+
+        .post-item{
+            height: 150px;
+            width: 100%;
+            border: 1px solid #e9e9e9;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            &:hover{
+                transition: all .5s ease;
+                border-color: $color;
+                -webkit-transition: all .5s ease;
+                -moz-transition: all .5s ease;
+                -ms-transition: all .5s ease;
+                -o-transition: all .5s ease;
+}
+
+            .userinfo{
+                display: flex;
+                justify-content: space-between;
+                height: 48px;
+                align-items: center;
+
+                .left{
+                    .username{
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        &:hover{
+                            color: $color;
+                        }
+                    }
+                    .time{
+                        font-size: .8rem;
+                        color: gray;
+                    }
+                }
+                .right{
+                    .avatar{
+                        cursor: pointer;
+                        
+                    }
+                }
+            }
+            .content{
+                font-size: 1rem;
+                margin-top: 15px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #e9e9e9;
+                cursor: pointer;
+            }
+
+            .show-container{
+                display: flex;
+                align-items: center;
+
+                span{
+                    margin-right: 10px;
+                }
+            }
+        } 
+    }
+}
+
+

@@ -19,7 +19,6 @@ function Home() {
     useEffect(() => {
         const fetch = () => {
             axios.get(`/post${location.search}`).then(res => {
-                console.log(res)
                 setDataList(res.post)
                 setPagination({...pagination, total: res.total, current: parseInt(res.current) })
                 setLoading(false)
@@ -30,10 +29,11 @@ function Home() {
     }, [location.search])
     
     const username = useSelector(state => state.user.username)
+    //add Post 的回调
     function setPost(list){
           setDataList(list)
     }
-    
+    //页码跳转
     const onChange = useCallback(
         (page) => {
             const url = `/?page=${page}`
@@ -41,6 +41,7 @@ function Home() {
         },
         []
     )
+    
     return (
         <div className='home'>
             <div className="home-header">Recent Posts</div>

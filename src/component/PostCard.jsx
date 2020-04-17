@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import  { useHistory } from 'react-router-dom'
 import { useSelector }  from 'react-redux'
 import moment from 'moment'
@@ -6,21 +6,36 @@ import { Avatar, Button } from 'antd'
 import { UserOutlined, DeleteOutlined } from '@ant-design/icons'
 import Show from '../component/showNum'
 import svg from '../public/svg'
+import axios from '../utils/axios'
 
 
 function PostCard(props) {
     const user = useSelector(state => state.user)
     const history = useHistory()
-    const { username, avatar, createdAt, _id, likeCount , commentCount, content, likeUser } = props.data
+    const { username, avatar, createdAt, _id,  commentCount, content, likeUser } = props.data
+    const [likes, setLikes ] = useState(likeUser)
     function jumpUrl(){
          history.push(`/post/${_id}`)
     }
     function onDelete(e){
         e.preventDefault()
-        console.log(_id)
+        axios.delete(`/post/${_id}`).then(res => {
+            history.go(0)
+        })
     }
-    const like = likeUser.includes(user.id)
-    console.log(like)
+    function onClick(e){
+        e.preventDefault()
+        likes.includes(user.id) ? (
+             axios.delete(`/post/like/${_id}`).then(res => {
+               setLikes(likes.splice(res, 1))
+             })
+        ) : (
+            axios.put(`/post/like/${_id}`).then(res => {
+                setLikes([...likes, res])
+            })
+        )
+    }
+    const like = likes.includes(user.id)
     return (      
         <div>
             <div className="userinfo" >
@@ -39,7 +54,7 @@ function PostCard(props) {
             </div>
             <div className='show-container'>
                <span>
-                  <Show num={111} svg={like? svg.like : svg.disLike} />
+                  <Show num={likes.length} svg={like? svg.like : svg.disLike} onLike={onClick}/>
                </span>
                <span>
                   <Show num={111} svg={svg.comment} />

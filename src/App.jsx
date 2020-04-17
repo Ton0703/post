@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router , Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router , Route, Switch, Redirect } from 'react-router-dom'
 import './App.scss';
 
 import Header from './component/Header'
@@ -18,6 +18,7 @@ function App() {
             <AuthRoute path='/login' exact component={Login} />
             <AuthRoute path='/register' exact component={Register} />
             <Route path='/post/:id' exact component={Post} />
+            <Route path='/home' exact render={() => <Redirect to='/' />} />
             <Route path='/'  component={Home} />
           </Switch>
        </div>

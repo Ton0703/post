@@ -15,7 +15,7 @@ function UserPost(props) {
         axios.post('/post', post).then(res => {
             setPost({content: ''})
             props.setPost(res)
-            history.push('/')
+            history.push('/home')
         })
     }
     return (

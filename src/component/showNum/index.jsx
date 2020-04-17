@@ -5,7 +5,7 @@ function show(props) {
     const { svg, num } = props
     return (
         <div className='show'>
-            <div className='svg'>
+            <div className='svg' onClick={props.onLike}>
                {svg}
             </div>
             <div className="num">

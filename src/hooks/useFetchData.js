@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import axios from '../utils/axios'
 function useFetchData({url = ''}) {
     const [dataList, setDataList] = useState([])

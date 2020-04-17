@@ -1,5 +1,4 @@
 const Post = require('../model/post')
-const User = require('../model/user')
 
 class PostCtl {
     async getPosts(ctx){
@@ -11,12 +10,20 @@ class PostCtl {
         const current = page
         ctx.body = { post, total, current}
     }
+    async getPost(ctx){
+        const post = await Post.findById(ctx.params.id).select('+likeUser')
+        ctx.body = post
+    }
     async create(ctx){
         const user = ctx.state.user
         const { content } = ctx.request.body
         await new Post({content, username: user.username}).save()
-        const list = await Post.find().sort({ _id: -1}).limit(9)
+        const list = await Post.find().sort({ _id: -1}).limit(9).select('+likeUser')
         ctx.body =  list
+    }
+    async delete(ctx){
+        await Post.findByIdAndRemove(ctx.params.id)
+        ctx.status = 204
     }
     async checkPostExist(ctx, next){
         const post = await Post.findById(ctx.params.id)
@@ -27,13 +34,21 @@ class PostCtl {
     }
     async like(ctx){
         const user = ctx.state.user
-        const me = await User.findOne({username: user.username})
         const post = await await Post.findById(ctx.params.id).select('+likeUser')
-        if(!post.likeUser.includes(me._id)){
-            post.likeUser.push(me._id)
+        if(!post.likeUser.includes(user._id)){
+            post.likeUser.push(user._id)
             post.save()
         }
-        ctx.status = 204
+        ctx.body = user._id
+    }
+    async disLike(ctx){
+        const post = await Post.findById(ctx.params.id).select('+likeUser')
+        const index = post.likeUser.map(item => item.toString()).indexOf(ctx.state.user._id)
+        if(index > -1){
+            post.likeUser.splice(index, 1)
+            post.save()
+        }
+        ctx.body = post.likeUser
     }
 }
 

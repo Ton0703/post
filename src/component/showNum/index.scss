@@ -22,6 +22,7 @@
         -o-border-radius: 3px;
         border-color: #1296db;
         cursor: pointer;
+        user-select: none;
         
         &::before, &::after{
             content: '';

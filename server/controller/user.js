@@ -10,17 +10,18 @@ class UserCtl {
              ctx.throw(409,'用户已经存在')
          }
          const newUser = await new User(ctx.request.body).save()
-         const token = jwt.sign({username}, secret, {expiresIn:'1d'})
-         ctx.body = {newUser, token} 
+         const { _id } = newUser
+         const token = jwt.sign({username, _id}, secret, {expiresIn:'1d'})
+         ctx.body = {username, id:_id, token} 
      }
      async login(ctx){
-         const { username } = ctx.request.body
-         const user = await User.findOne(ctx.request.body)
+         const user =  await User.findOne(ctx.request.body)
+         const { username, _id } = user
          if(!user){
              ctx.throw(404, '账号或则密码错误')
          }
-         const token = jwt.sign({username}, secret, {expiresIn: '1d'})
-         ctx.body = { username, token}
+         const token = jwt.sign({username, _id}, secret, {expiresIn: '1d'})
+         ctx.body = { username,id: _id, token }
      }
 }
 module.exports = new UserCtl()

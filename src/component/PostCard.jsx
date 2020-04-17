@@ -1,16 +1,29 @@
 import React from 'react'
+import  { useHistory } from 'react-router-dom'
+import { useSelector }  from 'react-redux'
 import moment from 'moment'
-import { Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Avatar, Button } from 'antd'
+import { UserOutlined, DeleteOutlined } from '@ant-design/icons'
 import Show from '../component/showNum'
 import svg from '../public/svg'
 
 
 function PostCard(props) {
-    const { username, avatar, createdAt, _id, likeCount , commentCount, content } = props.data
-    return (
+    const user = useSelector(state => state.user)
+    const history = useHistory()
+    const { username, avatar, createdAt, _id, likeCount , commentCount, content, likeUser } = props.data
+    function jumpUrl(){
+         history.push(`/post/${_id}`)
+    }
+    function onDelete(e){
+        e.preventDefault()
+        console.log(_id)
+    }
+    const like = likeUser.includes(user.id)
+    console.log(like)
+    return (      
         <div>
-            <div className="userinfo">
+            <div className="userinfo" >
                 <div className="left">
                     <div className="username">{username}</div>
                     <div className="time">{moment(createdAt).fromNow()}</div>
@@ -21,16 +34,19 @@ function PostCard(props) {
                     </div>
                 </div>
             </div>
-            <div className="content">
+            <div className="content"  onClick={jumpUrl}>
                <span>{content}</span>
             </div>
             <div className='show-container'>
                <span>
-                  <Show num={111} svg={svg.like} />
+                  <Show num={111} svg={like? svg.like : svg.disLike} />
                </span>
                <span>
                   <Show num={111} svg={svg.comment} />
                </span>
+               { user && user.username === username && (
+                   <Button type='primary' danger className='delete' onClick={onDelete} ><DeleteOutlined style={{fontSize: '18px', margin: 0}}/></Button>
+               )}
             </div>
         </div>
     )

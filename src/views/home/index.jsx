@@ -14,20 +14,20 @@ function Home() {
     const location = useLocation()
     const history = useHistory()
 
-    const [pagination, setPagination] = useState({current: 1, pageSize: 9, total: null})
+    const [pagination, setPagination] = useState({current: 2,defaultCurrent: 1, pageSize: 9, total: null})
 
     useEffect(() => {
         const fetch = () => {
             axios.get(`/post${location.search}`).then(res => {
                 console.log(res)
                 setDataList(res.post)
-                setPagination({...pagination, total: res.total, current: res.current})
+                setPagination({...pagination, total: res.total, current: parseInt(res.current) })
                 setLoading(false)
             })
         }
         setLoading(true)
         fetch()
-    }, [location])
+    }, [location.search])
     
     const username = useSelector(state => state.user.username)
     function setPost(list){
@@ -58,7 +58,9 @@ function Home() {
                 </div>
                 )
             }
-            <Pagination {...pagination} onChange={onChange} />
+            <Pagination {...pagination} onChange={onChange} className='pagination'/>
+
+            {username && <UserPost setPost={setPost}/>}
         </div>
         )
     }

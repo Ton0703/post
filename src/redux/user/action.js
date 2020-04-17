@@ -11,7 +11,7 @@ export function register(callback,userinfo){
                 type: TYPES.USER_REGISTER,
                 payload: res
             })
-            message.success(`注册成功，欢迎你${res.newUser.username}`)
+            message.success(`注册成功，欢迎你${res.username}`)
             callback()
         })
     }

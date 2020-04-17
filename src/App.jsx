@@ -7,6 +7,7 @@ import Home from './views/home'
 import Login from './views/login'
 import Register from './views/register'
 import Post from './views/post'
+import AuthRoute from './utils/authRoute'
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
        <div className='container'>
           <Header />
           <Switch>
-            <Route path='/login' exact component={Login} />
-            <Route path='/register' exact component={Register} />
+            <AuthRoute path='/login' exact component={Login} />
+            <AuthRoute path='/register' exact component={Register} />
             <Route path='/post/:id' exact component={Post} />
             <Route path='/'  component={Home} />
           </Switch>

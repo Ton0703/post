@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import  { useHistory } from 'react-router-dom'
 import { useSelector }  from 'react-redux'
 import moment from 'moment'
-import { Avatar, Button } from 'antd'
-import { UserOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import Show from '../component/showNum'
 import svg from '../public/svg'
 import axios from '../utils/axios'
+import DeleteButton from '../component/DeleteButton'
 
 
 function PostCard(props) {
@@ -14,20 +15,20 @@ function PostCard(props) {
     const history = useHistory()
     const { username, avatar, createdAt, _id,  commentCount, content, likeUser } = props.data
     const [likes, setLikes ] = useState(likeUser)
+    
     function jumpUrl(){
          history.push(`/post/${_id}`)
     }
-    function onDelete(e){
-        e.preventDefault()
-        axios.delete(`/post/${_id}`).then(res => {
-            history.go(0)
-        })
-    }
+    
+    useEffect(() => {
+      setLikes(likeUser)
+    }, [likeUser])
+     
     function onClick(e){
         e.preventDefault()
         likes.includes(user.id) ? (
              axios.delete(`/post/like/${_id}`).then(res => {
-               setLikes(likes.splice(res, 1))
+               setLikes(res)
              })
         ) : (
             axios.put(`/post/like/${_id}`).then(res => {
@@ -53,15 +54,14 @@ function PostCard(props) {
                <span>{content}</span>
             </div>
             <div className='show-container'>
-               <span>
-                  <Show num={likes.length} svg={like? svg.like : svg.disLike} onLike={onClick}/>
-               </span>
-               <span>
-                  <Show num={111} svg={svg.comment} />
-               </span>
-               { user && user.username === username && (
-                   <Button type='primary' danger className='delete' onClick={onDelete} ><DeleteOutlined style={{fontSize: '18px', margin: 0}}/></Button>
-               )}
+                <span>
+                    <Show num={likes.length} svg={like? svg.like : svg.disLike} onLike={onClick}/>
+                </span>
+                {user && user.username === username && (
+                    <div className='delete'>
+                        <DeleteButton id={_id} type='post' callback={props.deleteCallback}/>
+                    </div>
+                )}
             </div>
         </div>
     )

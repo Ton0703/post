@@ -5,28 +5,17 @@ import { Pagination } from 'antd'
 import './index.scss'
 import PostCard from '../../component/PostCard'
 import UserPost from '../../component/UserPost'
+import useFetchList from '../../hooks/useFetchData'
 import axios from '../../utils/axios'
 
 function Home() {   
-    const [dataList, setDataList] = useState([])
-    const [loading, setLoading] = useState(false)
     
     const location = useLocation()
     const history = useHistory()
 
-    const [pagination, setPagination] = useState({current: 2,defaultCurrent: 1, pageSize: 9, total: null})
 
-    useEffect(() => {
-        const fetch = () => {
-            axios.get(`/post${location.search}`).then(res => {
-                setDataList(res.post)
-                setPagination({...pagination, total: res.total, current: parseInt(res.current) })
-                setLoading(false)
-            })
-        }
-        setLoading(true)
-        fetch()
-    }, [location.search])
+    const { dataList,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
+    
     
     const username = useSelector(state => state.user.username)
     //add Post 的回调
@@ -41,6 +30,12 @@ function Home() {
         },
         []
     )
+    function DeleteCallback(){
+        axios.get(`/post${location.search}`).then(res => {
+            setDataList(res.post)
+            console.log(res)
+        })
+    }
     
     return (
         <div className='home'>
@@ -52,7 +47,7 @@ function Home() {
                     {dataList && dataList.map((item, index) => {
                         return (
                             <div className='post-item' key={index}>
-                                <PostCard data={item} />
+                                <PostCard data={item} deleteCallback={DeleteCallback}/>
                             </div>
                         )
                     })}
@@ -60,7 +55,6 @@ function Home() {
                 )
             }
             <Pagination {...pagination} onChange={onChange} className='pagination'/>
-
             {username && <UserPost setPost={setPost}/>}
         </div>
         )

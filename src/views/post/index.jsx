@@ -1,9 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from '../../utils/axios'
 
-function Post() {
+function Post(props) {
+    const postId = props.match.params.id
+    const [post, setPost] = useState({})
+    useEffect(() => {
+          axios.get(`/post/${postId}`).then(res => {
+              setPost(res)
+              console.log(res)
+          })
+    },[postId])
     return (
         <div className='post'>
-            11
+            {props.match.params.id}
         </div>
     )
 }

@@ -1,9 +1,12 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from '../utils/axios'
 function useFetchData({url = '', dependence = null}) {
     const [dataList, setDataList] = useState([])
     const [loading, setLoading] = useState(false)
     const [pagination, setPagination] = useState({current: 1, pageSize: 12, total: null})
+
+    const history = useHistory()
 
     useEffect(() => {
         const fetch = () => {
@@ -16,11 +19,23 @@ function useFetchData({url = '', dependence = null}) {
         setLoading(true)
         fetch()
     }, [dependence])
+    
+    const onChange = useCallback(
+        (page) => {
+            document.documentElement.scrollTop = 0;
+            const url = `/?page=${page}`
+            history.push(url)
+        },
+        []
+    )
     return ({
         dataList,
         setDataList,
         loading,
-        pagination
+        pagination : {
+            ...pagination,
+            onChange : onChange
+        }
     })
 }
 

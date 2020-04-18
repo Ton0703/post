@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
 import { Pagination } from 'antd'
 import './index.scss'
 import PostCard from '../../component/PostCard'
@@ -11,7 +11,6 @@ import axios from '../../utils/axios'
 function Home() {   
     
     const location = useLocation()
-    const history = useHistory()
 
 
     const { dataList,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
@@ -22,14 +21,7 @@ function Home() {
     function setPost(list){
           setDataList(list)
     }
-    //页码跳转
-    const onChange = useCallback(
-        (page) => {
-            const url = `/?page=${page}`
-            history.push(url)
-        },
-        []
-    )
+   
     function DeleteCallback(){
         axios.get(`/post${location.search}`).then(res => {
             setDataList(res.post)
@@ -54,7 +46,7 @@ function Home() {
                 </div>
                 )
             }
-            <Pagination {...pagination} onChange={onChange} className='pagination'/>
+            <Pagination className='pagination' {...pagination} />
         </div>
         )
     }

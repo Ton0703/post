@@ -1,23 +1,40 @@
 $color:#1296db;
 .home{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-
+    
+    @media screen and ( max-width: 1200px) {
+        padding: 0 20px;
+    }
     .home-header{
         margin-top: 10px;
         font-size: 1.5rem;
     }
-
+    .loading{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .post-list{
         display: grid;  
         width: 100%;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 150px 150px 150px;
+        grid-template-rows: 150px 150px 150px 150px;
         row-gap: 10px;
         column-gap: 10px;
         margin-top: 10px;
+
+        @media screen and ( max-width: 800px ) {
+            grid-template-columns: repeat(2, 1fr); 
+        }
+        @media screen and ( max-width: 500px ) {
+            grid-template-columns: 1fr; 
+        }
 
         .post-item{
             height: 150px;
@@ -91,7 +108,9 @@ $color:#1296db;
     }
 
     .pagination{
-        margin-top: 40px;
+        position: absolute;
+        bottom: -60px;
+        margin-bottom: 10px;
     }
 
     .user-post{

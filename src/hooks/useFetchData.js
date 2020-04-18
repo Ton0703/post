@@ -3,7 +3,7 @@ import axios from '../utils/axios'
 function useFetchData({url = '', dependence = null}) {
     const [dataList, setDataList] = useState([])
     const [loading, setLoading] = useState(false)
-    const [pagination, setPagination] = useState({current: 2,defaultCurrent: 1, pageSize: 9, total: null})
+    const [pagination, setPagination] = useState({current: 1, pageSize: 12, total: null})
 
     useEffect(() => {
         const fetch = () => {

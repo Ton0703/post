@@ -4,7 +4,7 @@ class PostCtl {
     async getPosts(ctx){
         const { page = 1  } = ctx.query
         const _page = Math.max(page * 1, 1) - 1
-        const perPage = 9
+        const perPage = 12
         const post = await Post.find().sort({ _id: -1}).skip(_page * perPage).limit(perPage).select('+likeUser')
         const total = await Post.find().countDocuments()
         const current = page

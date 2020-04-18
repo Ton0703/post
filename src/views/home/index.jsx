@@ -41,7 +41,7 @@ function Home() {
         <div className='home'>
             <div className="home-header">Recent Posts</div>
             {loading ? (
-                <h1>Loading...</h1>
+                <h1 className='loading'>Loading...</h1>
             ) : (
                 <div className='post-list'>
                     {dataList && dataList.map((item, index) => {
@@ -55,7 +55,6 @@ function Home() {
                 )
             }
             <Pagination {...pagination} onChange={onChange} className='pagination'/>
-            {username && <UserPost setPost={setPost}/>}
         </div>
         )
     }

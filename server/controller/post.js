@@ -48,7 +48,7 @@ class PostCtl {
             post.likeUser.splice(index, 1)
             post.save()
         }
-        ctx.body = post.likeUser
+        ctx.body = ctx.state.user._id
     }
 }
 

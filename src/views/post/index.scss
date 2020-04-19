@@ -8,21 +8,34 @@
         margin-top: 20px;
 
         .avatar-wrapper{
-            flex: 0 1 150px;
-
-            .avatar{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 100%;
-                font-size: 150px;
-            }
+            flex: 0 1 120px;
         }
         .content-wrapper{
             flex: 1 1 auto;
             margin-left: 10px;
             border: 1px solid #e9e9e9;
-        }
+            padding: 10px;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+
+            .username{
+                font-size: 1.7rem;
+                font-weight: 600;
+                display: inline-block;
+                cursor: pointer;
+            }
+            .time{
+               display: inline-block;
+               margin-left: 10px;
+            }
+            .content{
+                margin-top: 20px;
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+}
     }
 }

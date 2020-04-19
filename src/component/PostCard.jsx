@@ -3,10 +3,9 @@ import  { useHistory } from 'react-router-dom'
 import { useSelector }  from 'react-redux'
 import moment from 'moment'
 import { Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import useLike from '../hooks/useLike'
 import Show from '../component/showNum'
 import svg from '../public/svg'
-import axios from '../utils/axios'
 import DeleteButton from '../component/DeleteButton'
 
 
@@ -15,30 +14,32 @@ function PostCard(props) {
     const history = useHistory()
     const { username, avatar, createdAt, _id,   content, likeUser } = props.data
     const [likes, setLikes ] = useState(likeUser)
+    const { like, disLike, value } = useLike(likes, _id)
     
     function jumpUrl(){
          history.push(`/post/${_id}`)
     }
-    
+
     useEffect(() => {
-      setLikes(likeUser)
-    }, [likeUser])
+        setLikes(likeUser)
+      }, [likeUser])
+
+
+    useEffect(() => {
+      setLikes(value)
+    }, [value])
      
     function onClick(e){
         e.preventDefault()
-        likes.includes(user.id) ? (
-             axios.delete(`/post/like/${_id}`).then(res => {
-               setLikes(res)
-             })
+        likePost ? (
+            disLike()
         ) : (
-            axios.put(`/post/like/${_id}`).then(res => {
-                setLikes([...likes, res])
-            })
+            like()
         )
     }
-    const like = likes.includes(user.id)
+    const likePost = likes.includes(user.id)
     return (      
-        <div onClick={jumpUrl}>
+        <div>
             <div className="userinfo" >
                 <div className="left">
                     <div className="username">{username}</div>
@@ -46,16 +47,16 @@ function PostCard(props) {
                 </div>
                 <div className="right">
                     <div className="avatar">
-                        {avatar? <img src={avatar} alt='' /> : <Avatar shape='square' size={48} icon={<UserOutlined />} />}
+                        {avatar? <img src={avatar} alt='' /> : <Avatar size={48} icon={svg.avatar} />}
                     </div>
                 </div>
             </div>
-            <div className="content">
+            <div className="content"  onClick={jumpUrl}>
                <span>{content}</span>
             </div>
             <div className='show-container'>
                 <span>
-                    <Show num={likes.length} svg={like? svg.like : svg.disLike} onLike={onClick}/>
+                    <Show num={likes.length} svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
                 </span>
                 {user && user.username === username && (
                     <div className='delete'>

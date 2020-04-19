@@ -38,7 +38,7 @@ function PostCard(props) {
     }
     const like = likes.includes(user.id)
     return (      
-        <div>
+        <div onClick={jumpUrl}>
             <div className="userinfo" >
                 <div className="left">
                     <div className="username">{username}</div>
@@ -50,7 +50,7 @@ function PostCard(props) {
                     </div>
                 </div>
             </div>
-            <div className="content"  onClick={jumpUrl}>
+            <div className="content">
                <span>{content}</span>
             </div>
             <div className='show-container'>

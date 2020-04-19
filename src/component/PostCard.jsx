@@ -4,7 +4,7 @@ import { useSelector }  from 'react-redux'
 import moment from 'moment'
 import { Avatar } from 'antd'
 import useLike from '../hooks/useLike'
-import Show from '../component/showNum'
+import Show from './ClickButton'
 import svg from '../public/svg'
 import DeleteButton from '../component/DeleteButton'
 

@@ -4,7 +4,8 @@ import axios from '../../utils/axios'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Divider } from 'antd'
 import moment from 'moment'
-import Show from '../../component/showNum'
+import LikeButton from '../../component/ClickButton'
+import DeleteButton from '../../component/DeleteButton'
 import svg from '../../public/svg'
 import './index.scss'
 import useLike from '../../hooks/useLike'
@@ -50,6 +51,9 @@ function Post(props) {
           like()
         )
     }
+    function callback(){
+        props.history.push('/')
+    }
     return (
         <div className='post'>
            {loading? (
@@ -64,8 +68,13 @@ function Post(props) {
                         <div className="username">{username}</div>
                         <div className="time">发布于 {moment(createdAt).fromNow()}</div>
                         <div className='content'>{content}</div>
-                        <div>
-                            <Show svg={likePost ? svg.like : svg.disLike} num={likeUser.length} onLike={onLike}/>
+                        <div className='button'>
+                            <div className='like'>
+                                <LikeButton svg={likePost ? svg.like : svg.disLike} num={likeUser.length} onLike={onLike}/>
+                            </div>
+                            <div className="delete">
+                                <DeleteButton id={postId} type='post' callback={callback}/>
+                            </div>
                         </div>
                     </div>
                     </div>

@@ -19,7 +19,9 @@ function DeleteButton({id, type, callback}) {
     return (
         <div>
             <Button type='danger' onClick={changeVisible} className='deleteButton'>删除</Button>
-            <Modal visible={visible} onCancel={changeVisible} onOk={deleteItem} title= '确认删除？'/>
+            <Modal visible={visible} onCancel={changeVisible} onOk={deleteItem}>
+                <p>确认删除？</p>
+            </Modal>
         </div>
     )
 }

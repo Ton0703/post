@@ -13,7 +13,7 @@ import DeleteButton from '../component/DeleteButton'
 function PostCard(props) {
     const user = useSelector(state => state.user)
     const history = useHistory()
-    const { username, avatar, createdAt, _id,  commentCount, content, likeUser } = props.data
+    const { username, avatar, createdAt, _id,   content, likeUser } = props.data
     const [likes, setLikes ] = useState(likeUser)
     
     function jumpUrl(){

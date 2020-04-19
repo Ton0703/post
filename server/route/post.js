@@ -1,10 +1,7 @@
 const Router = require('koa-router')
 const router = new Router({prefix: '/post'})
-const jwt = require('koa-jwt')
 const { create, getPosts, getPost,  checkPostExist, like, disLike, delete: del } = require('../controller/post')
-const { secret } = require('../config')
-
-const auth = jwt({secret})
+const auth = require('../utils/auth')
 
 router.post('/', auth, create)
 router.get('/', getPosts)

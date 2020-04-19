@@ -10,9 +10,9 @@ function DeleteButton({id, type, callback}) {
     }
     function deleteItem(){
         axios.delete(`/${type}/${id}`).then(
-           () => {
+           (res) => {
                setVisible(false)
-               if( callback )  callback() 
+               if( callback )  callback(res) 
            }
         )
     }

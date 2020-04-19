@@ -8,6 +8,7 @@ import DeleteButton from '../../component/DeleteButton'
 import svg from '../../public/svg'
 import './index.scss'
 import useLike from '../../hooks/useLike'
+import Comment from '../../component/Comment'
 
 function Post(props) {
     const userId = useSelector(state => state.user.id)
@@ -38,7 +39,6 @@ function Post(props) {
     
     useEffect(()=> {
         setPost({...post, likeUser: value})
-        console.log(value)
     },[value])
     
 
@@ -64,7 +64,9 @@ function Post(props) {
                             <Avatar size={100} icon={svg.avatar} />
                         </div>
                         <div className="content-wrapper">           
-                            <div className="username">{username}</div>
+                            <div className="username">
+                                <p>{username}</p>
+                            </div>
                             <div className="time">发布于 {moment(createdAt).fromNow()}</div>
                             <div className='content'>{content}</div>
                             <div className='button'>
@@ -78,7 +80,10 @@ function Post(props) {
                         </div>
                     </div>
                     
-                    <div className="comment-wrapper"></div>
+                    <div className="comment-wrapper">
+                        <h4>评论列表</h4>
+                        <Comment  postId={postId} userId={userId}/>
+                    </div>
                </>
            )}
         </div>

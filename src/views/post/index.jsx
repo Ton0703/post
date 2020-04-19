@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 import axios from '../../utils/axios'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Divider } from 'antd'
+import { Avatar } from 'antd'
 import moment from 'moment'
 import LikeButton from '../../component/ClickButton'
 import DeleteButton from '../../component/DeleteButton'
@@ -64,20 +63,21 @@ function Post(props) {
                         <div className="avatar-wrapper">
                             <Avatar size={100} icon={svg.avatar} />
                         </div>
-                    <div className="content-wrapper">           
-                        <div className="username">{username}</div>
-                        <div className="time">发布于 {moment(createdAt).fromNow()}</div>
-                        <div className='content'>{content}</div>
-                        <div className='button'>
-                            <div className='like'>
-                                <LikeButton svg={likePost ? svg.like : svg.disLike} num={likeUser.length} onLike={onLike}/>
-                            </div>
-                            <div className="delete">
-                                <DeleteButton id={postId} type='post' callback={callback}/>
+                        <div className="content-wrapper">           
+                            <div className="username">{username}</div>
+                            <div className="time">发布于 {moment(createdAt).fromNow()}</div>
+                            <div className='content'>{content}</div>
+                            <div className='button'>
+                                <div className='like'>
+                                    <LikeButton svg={likePost ? svg.like : svg.disLike} num={likeUser.length} onLike={onLike}/>
+                                </div>
+                                <div className="delete">
+                                    <DeleteButton id={postId} type='post' callback={callback}/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
+                    
                     <div className="comment-wrapper"></div>
                </>
            )}

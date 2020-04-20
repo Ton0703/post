@@ -8,8 +8,9 @@ class discussCtl {
           const userId = ctx.state.user._id
           let commentId = ctx.request.body.commentId
           if(!commentId){
-             const comment = await new Comment({ content, postId, userId }).save()
-             ctx.body = comment
+             await new Comment({ content, postId, userId }).save()
+             const comments = await Comment.find({postId}).populate('userId').sort({_id: -1})
+             ctx.body = comments
           } else {
              const reply = await new Reply({content, postId, userId, commentId}).save()
              ctx.body = reply
@@ -17,14 +18,14 @@ class discussCtl {
       }
       async getComment(ctx){
           const postId = ctx.params.id
-          const comment = await Comment.find({postId}).populate('userId')
-          const reply = await Reply.find({postId})
+          const comment = await Comment.find({postId}).populate('userId').sort({_id: -1})
+          const reply = await Reply.find({postId}).sort({_id: -1})
           ctx.body = { comment, reply }
       }
       async commentDel(ctx){
           const postId = await Comment.findById(ctx.params.id)
           await Comment.findByIdAndRemove(ctx.params.id)
-          const comment = await Comment.find({postId: postId.postId}).populate('userId')
+          const comment = await Comment.find({postId: postId.postId}).populate('userId').sort({_id: -1})
           ctx.body = comment
       }
 }

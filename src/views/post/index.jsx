@@ -53,6 +53,8 @@ function Post(props) {
     function callback(){
         props.history.push('/')
     }
+
+    
     return (
         <div className='post'>
            {loading? (

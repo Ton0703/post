@@ -39,7 +39,7 @@ function Post(props) {
     useEffect(() => {
         axios.get(`/${postId}/discuss`).then(res => {
             setCommentList(res)
-        }).catch(error => { console.log(error)})
+        })
      },[postId])
 
     //判断用户是否喜欢这个帖子
@@ -79,7 +79,9 @@ function Post(props) {
     function onChange(e){
         setInput(e)
     }
-
+    function jumpLogin(){
+        props.history.push('/login')
+    }
     
     return (
         <div className='post'>
@@ -93,7 +95,7 @@ function Post(props) {
                         </div>
                         <div className="content-wrapper">           
                             <div className="username">
-                                <p>{userId.username}</p>
+                                {userId.username}
                             </div>
                             <div className="time">发布于 {moment(createdAt).fromNow()}</div>
                             <div className='content'>{content}</div>
@@ -107,22 +109,28 @@ function Post(props) {
                             </div>
                         </div>
                     </div>
-                    
-                    <div className="comment-wrapper">
-                        <h4>评论列表</h4>
-                        <div className='comment-list'>
-                        {commentList && commentList.map((item, index) => {
-                            return (
-                                <Comment callback={Callback} {...item} user={userId} key={index}/>
-                            )
-                        })}
-                        </div>
-                        {userId && (
+                    <div className='comment-area'>
+                        {user ? (
                         <div className='comment-input'>
                             <TextArea row={4} onChange={e => onChange(e.target.value)} value={input} />
                             <Button type='primary' className='submit' onClick={onSubmit} >提交</Button>
                         </div>
-                         )}
+                        ): (
+                            <div className='unLogin'>
+                                请先<span onClick={jumpLogin}> 登录 </span>再进行评论！
+                            </div>
+                        )}
+                    </div>
+                    
+                    <div className="comment-wrapper">
+                        <h4>评论列表 （共 {commentList.length} 条）</h4>
+                        <div className='comment-list'>
+                        {commentList && commentList.map((item, index) => {
+                            return (
+                                <Comment callback={Callback} {...item} user={user} key={index}/>
+                            )
+                        })}
+                        </div>
                     </div>
                </>
            )}

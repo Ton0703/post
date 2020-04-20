@@ -21,10 +21,10 @@ function Reply(props) {
         <>
             <div className='reply'>
                 <div className='reply-user'>
-                    <span className='username'>{userId.username}</span> 回复 <span className='username'>{replyTo.username}</span>：
+                    <span className='username'>{userId.username}</span> 回复了 <span className='username'>{replyTo.username}</span>：
                     <div className="time">{moment(createdAt).fromNow()}</div>
                 </div>
-                <div className='content'>{content}</div>
+                <div className='reply-content'>{content}</div>
                 <div className='button' onClick={onClick}>回复</div>
             </div>
             <div className={`reply-area ${ visible ? '' : 'visible'}`}>

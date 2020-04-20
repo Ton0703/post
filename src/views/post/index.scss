@@ -1,38 +1,57 @@
 .post{
     display: flex;
     flex-direction: column;
+    width: 100%;
+    @media screen and (max-width:1200px) {
+        padding:0  20px;
+    }
 
     .post-wrapper{
         display: flex;
         flex-direction: row;
         margin-top: 20px;
+        width: 100%;
+
+        @media screen and (max-width: 600px){
+            .avatar-wrapper{
+                display: none
+            }
+        }
 
         .avatar-wrapper{
-            flex: 0 1 120px;
+            flex: 0 1 100px;
         }
         .content-wrapper{
             flex: 1 1 auto;
-            max-width: 1000px;
             margin-left: 10px;
+            width: calc(100% - 130px);
             border: 1px solid #e9e9e9;
             padding: 10px;
             border-radius: 8px;
+            word-wrap: break-word;
             -webkit-border-radius: 8px;
             -moz-border-radius: 8px;
             -ms-border-radius: 8px;
             -o-border-radius: 8px;
+
+            @media screen and (max-width: 600px){
+                margin-left: 0;
+            }
 
             .username{
                 font-size: 1.7rem;
                 font-weight: 600;
                 display: inline-block;
                 cursor: pointer;
+                color: #1296db;
             }
             .time{
                display: inline-block;
                margin-left: 10px;
             }
             .content{
+                width: 100%;
+                word-wrap: break-word;
                 margin-top: 20px;
                 font-size: 1.2rem;
                 margin-bottom: 10px;
@@ -45,10 +64,40 @@
             }
 }
     }
+    .comment-area{
+        .comment-input{
+            margin-top: 20px;
+            margin-left: 115px;
+            @media screen and (max-width: 600px){
+                margin-left: 0;
+            }
+            .submit{
+                margin-top: 10px;
+                float: right;
+            }
+        }
+        .unLogin{
+            height: 50px;
+            margin-top: 20px;
+            border-radius: 8px;
+            margin-left: 130px;
+            border: 1px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
+            span{
+                cursor: pointer;
+                color: #1296db;
+            }
+        }
+    }
     .comment-wrapper{
         margin-left: 130px;
         margin-top: 20px;
+        @media screen and (max-width: 1200px){
+            margin-left: 0;
+        }
 
         .comment-list{
             
@@ -57,7 +106,7 @@
                 width: 100%;
                 border: 1px solid #e9e9e9;
                 display: flex;
-                margin-bottom: 20px;
+                margin-top: 20px;
                 border-radius: 10px;
                 padding: 10px;
                 cursor: pointer;
@@ -65,39 +114,48 @@
                 .userInfo{
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    padding: 10px 0;
+                    width: 32px;
                     .username{
                         font-size: 1.2rem;
                         font-weight: 600;
                         cursor: pointer;
+                        color: #1296db;
+                    }
+                }
+                .time{
+                    font-size: .7rem;
+                    color: gray;
+                    position: absolute;
+                    right: 10px;
+                    bottom: 10px;
+                    border-left: 1px solid #e9e9e9;
+                    padding-left: 10px;
+                }
+                .replyButton{
+                    position: absolute;
+                    bottom:  10px;
+                    font-size: .7rem;
+                    font-weight: 400;
+                    right: 80px;
+                    z-index: 2;
+                    &:hover{
+                        color: #1296db ;
                     }
                 }
                 .content-wrapper{
                     margin-left: 20px;
                     flex: 1 1 auto;
+                    width: calc(100% - 52px);
                     position: relative;
-                    .time{
-                        font-size: .7rem;
-                        color: gray;
-                        position: absolute;
-                        right: 3px;
-                        bottom: 3px;
-                        border-left: 1px solid #e9e9e9;
-                        padding-left: 10px;
-                    }
-                    .replyButton{
-                        position: absolute;
-                        bottom:  3px;
-                        font-size: .7rem;
-                        font-weight: 400;
-                        right: 65px;
-                        &:hover{
-                            color: #1296db ;
-                        }
-                    }
-                    .content{
+                    word-wrap: break-word;
 
+                    .content{
+                        width: 100%;
+                        margin-bottom: 20px;
+                        margin-right: 20px;
                     }
+                    
                 }
                 .delete{
                     position: absolute;
@@ -106,13 +164,12 @@
                 }
             }
             .reply-item{
-                margin-bottom: 20px;
-                margin-left: 60px;
+                margin-top: 10px;
                 height: 100px;
                 overflow: hidden;
                 .reply{
                     float: right;
-                    margin: 10px 0;
+                    margin:  10px;
                 }
             }
             .visible{
@@ -125,26 +182,25 @@
                     border: 1px solid #e9e9e9;
                     width: 100%;
                     padding: 10px;
-                    margin-bottom: 10px;
+                    margin-top: 10px;
                     border-radius: 8px;
                     cursor: pointer;
                     position: relative;
+                    word-wrap: break-word;
                    
                     .reply-user{
-                        margin-bottom: 10px;
                         .username{
-                            font-size: .8rem;
+                            font-size: .9rem;
                             font-weight: 600;
                             cursor: pointer;
-                            &:hover{
-                                color: #1296db;
-                            }
+                            color: #1296db;
                         }
                     }
-                    .content{
+                    .reply-content{
+                        width: 100%;
                         font-size: 0.9rem;
                         font-weight: 400;
-                        width: 90%;
+                        margin-bottom: 15px;
                     }
                     .time{
                         float: right;
@@ -156,6 +212,7 @@
                         bottom: 10px;
                         right: 10px;
                         font-size: .7rem;
+                        z-index: 2;
                         cursor: pointer;
                         &:hover{
                             color: #1296db
@@ -164,18 +221,12 @@
                 }
                 .reply-area{
                     height: 110px;
+                    margin-top: 10px;
                     .button{
                         float: right;
                         margin-top: 10px;
                     }
                 }
-            }
-        }
-        .comment-input{
-            padding-bottom: 100px;
-            .submit{
-                margin-top: 10px;
-                float: right;
             }
         }
     } 

@@ -5,7 +5,7 @@ import { login } from '../../redux/user/action'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-function Login() {
+function Login(props) {
     const dispatch = useDispatch()
     const history = useHistory()
     const {onSubmit, onChange, values } = useForm(loginUser, {
@@ -24,6 +24,9 @@ function Login() {
     }
     function loginUser(){
         dispatch(login(jump, values))
+    }
+    function jumpRegister(){
+        props.history.push('/register')
     }
     return (
         <div className='form-container'>
@@ -50,6 +53,7 @@ function Login() {
                     <Button type='primary' htmlType='submit'>
                         Login
                     </Button>
+                    <span className='jumpRegister'>or <span className='reg' onClick={jumpRegister}>Register</span>!</span>
                 </Form.Item>
             </Form>
         </div>

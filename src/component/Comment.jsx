@@ -28,23 +28,25 @@ function Comment(props) {
         <>                       
             <div className='comment-item'>
                 <div className="userInfo">
-                    <div className="awatar">
+                    <div className="avatar">
                         <Avatar icon={svg.avatar} />
                     </div>
                     <div className="username">{userId.username}</div>
                 </div>
-                <div className="content-wrapper">
-                    <div className="content">{content}</div>
+                <div>
                     <div className="time">{moment(createdAt).fromNow()}</div>
-                    {userId && (
+                    {user && (
                         <div className='replyButton' onClick={onClick}>回复</div>
                     )}
+                    </div>
+                <div className="content-wrapper">
+                    <div className="content">{content}</div>
                 </div>
-                { user && user === userId._id && (
+                {/* { user && user === userId._id && (
                     <div className='delete'>
                         <DeleteButton id={_id} type='comment' callback={props.callback}/>
                     </div>
-                )}
+                )} */}
             </div>
             <div className={`reply-item  ${visible ? '' : 'visible'}`}>
                 <TextArea row={2} value={inputContent}  onChange={e => onChange(e.target.value)}/>

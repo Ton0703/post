@@ -4,9 +4,10 @@ const { Schema, model } = mongoose
 
 const replySchema = new Schema({
     content: { type: String, required: true },
-    commentId: { type: Schema.Types.ObjectId, ref: 'Comment' },
+    commentId: { type: String},
     userId: { type: Schema.Types.ObjectId, ref: 'User'},
-    postId: { type: String }
+    postId: { type: String },
+    replyTo: { type: Schema.Types.ObjectId, ref: 'User'}
 },{
     timestamps: true,
     versionKey: false

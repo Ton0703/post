@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 import axios from '../../utils/axios'
-import { Avatar } from 'antd'
+import { Avatar, Input, Button, message   } from 'antd'
 import moment from 'moment'
 import LikeButton from '../../component/ClickButton'
 import DeleteButton from '../../component/DeleteButton'
@@ -13,13 +13,16 @@ import Comment from '../../component/Comment'
 function Post(props) {
     const userId = useSelector(state => state.user.id)
     const postId = props.match.params.id
+    const { TextArea } = Input
     const [post, setPost] = useState({
         username:'',
         content:'',
         createdAt: '',
         likeUser: []
     })
+    const [commentList, setCommentList] = useState([])
     const [loading, setLoading] = useState(false)
+    const [input, setInput] = useState('')
     const { username, content, createdAt, likeUser } = post
     useEffect(() => {
           const fetch = () => {
@@ -31,6 +34,13 @@ function Post(props) {
           setLoading(true)
           fetch()
     },[postId])
+    
+    //获取评论
+    useEffect(() => {
+        axios.get(`/${postId}/discuss`).then(res => {
+            setCommentList(res)
+        }).catch(error => { console.log(error)})
+     },[postId])
 
     //判断用户是否喜欢这个帖子
     const likePost = likeUser.includes(userId)
@@ -52,6 +62,22 @@ function Post(props) {
     }
     function callback(){
         props.history.push('/')
+    }
+    function Callback(value){
+        setCommentList(value)
+        message.success('删除成功')
+   }
+    function onSubmit(e){
+        e.preventDefault()
+        axios.post(`/${postId}/discuss`, {content: input}).then(res => {
+            setCommentList(res)
+            setInput('')
+            message.success('评论成功')
+            document.documentElement.scrollTop = 0
+        })
+    }
+    function onChange(e){
+        setInput(e)
     }
 
     
@@ -84,7 +110,19 @@ function Post(props) {
                     
                     <div className="comment-wrapper">
                         <h4>评论列表</h4>
-                        <Comment  postId={postId} userId={userId}/>
+                        <div className='comment-list'>
+                        {commentList && commentList.map((item, index) => {
+                            return (
+                                <Comment callback={Callback} {...item} user={userId} key={index}/>
+                            )
+                        })}
+                        </div>
+                        {userId && (
+                        <div className='comment-input'>
+                            <TextArea row={4} onChange={e => onChange(e.target.value)} value={input} />
+                            <Button type='primary' className='submit' onClick={onSubmit} >提交</Button>
+                        </div>
+                         )}
                     </div>
                </>
            )}

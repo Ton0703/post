@@ -1,68 +1,78 @@
 import React, {useState, useEffect} from 'react'
 import moment from 'moment'
-import { Avatar, Input, Button, message  } from 'antd'
-import svg from '../public/svg'
+import { Avatar, Input, Button, message} from 'antd'
 import axios from '../utils/axios'
+import svg from '../public/svg'
 import DeleteButton from '../component/DeleteButton'
+import Reply from '../component/Reply'
 
 function Comment(props) {
-    const postId = props.postId
-    const userId = props.userId
+    const user = props.user
     const { TextArea } = Input
-    const [commentList, setCommentList] = useState([])
-    const [input, setInput] = useState('')
-  
     
+    const { content, createdAt, _id, userId, postId } = props
+    const [visible, setVisible] = useState(false)
+    const [value, setValue] = useState('')
+    const [replyList, setReplyList] = useState([])
+
     useEffect(() => {
-       axios.get(`/${postId}/discuss`).then(res => {
-           setCommentList(res.comment)
-       }).catch(error => { console.log(error)})
-    },[])
-    function callback(value){
-         setCommentList(value)
+        axios.get(`/${_id}/reply`).then((res) => {
+            setReplyList(res)
+            console.log(res)
+        })
+    }, [props])
+    
+
+    function onClick(){
+        setVisible(!visible)
     }
     function onSubmit(e){
-         e.preventDefault()
-         axios.post(`/${postId}/discuss`, {content: input}).then(res => {
-             setCommentList(res)
-             setInput('')
-             message.success('评论成功')
-             document.documentElement.scrollTop = 0
-         })
+        e.preventDefault()
+        axios.post(`/${postId}/discuss`, {content: value, commentId: _id}).then(res => {
+            setReplyList(res)
+            setValue('')
+            setVisible(false)
+            message.success('回复成功')
+        })
+
     }
-    function onChange(e){
-        setInput(e)
+    function onChange(value){
+        setValue(value)
     }
     return (
-        <div className='comment-list'>
-            {commentList.map((item, index) => {
-                return (
-                    <div key={index} className='comment-item'>
-                        <div className="userInfo">
-                            <div className="awatar">
-                                <Avatar icon={svg.avatar} />
-                            </div>
-                            <div className="username">{item.userId.username}</div>
-                        </div>
-                        <div className="content-wrapper">
-                            <div className="content">{item.content}</div>
-                            <div className="time">{moment(item.createdAt).fromNow()}</div>
-                        </div>
-                        { userId && userId === item.userId._id && (
-                            <div className='delete'>
-                                <DeleteButton id={item._id} type='comment' callback={callback}/>
-                            </div>
-                        )}
+        <>                       
+            <div className='comment-item'>
+                <div className="userInfo">
+                    <div className="awatar">
+                        <Avatar icon={svg.avatar} />
                     </div>
-                )
-            })}
-            {userId && (
-                <div className='comment-input'>
-                    <TextArea row={4} onChange={e => onChange(e.target.value)} value={input} />
-                    <Button type='primary' className='submit' onClick={onSubmit} >提交</Button>
+                    <div className="username">{userId.username}</div>
                 </div>
-            )}
-        </div>
+                <div className="content-wrapper">
+                    <div className="content">{content}</div>
+                    <div className="time">{moment(createdAt).fromNow()}</div>
+                    {userId && (
+                        <div className='replyButton' onClick={onClick}>回复</div>
+                    )}
+                </div>
+                { user && user === userId._id && (
+                    <div className='delete'>
+                        <DeleteButton id={_id} type='comment' callback={props.callback}/>
+                    </div>
+                )}
+            </div>
+            <div className={`reply-item  ${visible ? '' : 'visible'}`}>
+                <TextArea row={2} value={value} onChange={e => onChange(e.target.value)}/>
+                <Button type='primary' className='reply' onClick={onSubmit}>回复</Button>
+            </div>       
+            <div className="reply-list">
+                {replyList && replyList.map((item, index) => {
+                    return (
+                        <Reply {...item} key={index} commentId={_id} postId={postId}/>
+                    )
+                })}
+            </div>
+        </>
     )
 }
 

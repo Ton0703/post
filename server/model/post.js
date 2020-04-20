@@ -4,7 +4,7 @@ const { Schema, model } = mongoose
 
 const postSchema = new Schema({
     content: { type: String, required: true },
-    username: { type: String },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     likeUser: {
         type: [{ type: Schema.Types.ObjectId, ref: 'User'}],
         select: false

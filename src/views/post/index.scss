@@ -162,6 +162,13 @@
                         }
                     }
                 }
+                .reply-area{
+                    height: 110px;
+                    .button{
+                        float: right;
+                        margin-top: 10px;
+                    }
+                }
             }
         }
         .comment-input{

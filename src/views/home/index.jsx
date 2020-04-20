@@ -13,7 +13,7 @@ function Home() {
     const location = useLocation()
 
 
-    const { dataList,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
+    const { dataList ,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
     
     
     const username = useSelector(state => state.user.username)

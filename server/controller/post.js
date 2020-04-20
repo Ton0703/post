@@ -5,20 +5,20 @@ class PostCtl {
         const { page = 1  } = ctx.query
         const _page = Math.max(page * 1, 1) - 1
         const perPage = 12
-        const post = await Post.find().sort({ _id: -1}).skip(_page * perPage).limit(perPage).select('+likeUser')
+        const post = await Post.find().sort({ _id: -1}).skip(_page * perPage).limit(perPage).select('+likeUser').populate('userId')
         const total = await Post.find().countDocuments()
         const current = page
         ctx.body = { post, total, current}
     }
     async getPost(ctx){
-        const post = await Post.findById(ctx.params.id).select('+likeUser')
+        const post = await Post.findById(ctx.params.id).select('+likeUser').populate('userId')
         ctx.body = post
     }
     async create(ctx){
         const user = ctx.state.user
         const { content } = ctx.request.body
-        await new Post({content, username: user.username}).save()
-        const list = await Post.find().sort({ _id: -1}).limit(9).select('+likeUser')
+        await new Post({content, userId: user._id}).save()
+        const list = await Post.find().sort({ _id: -1}).limit(9).select('+likeUser').populate('userId')
         ctx.body =  list
     }
     async delete(ctx){

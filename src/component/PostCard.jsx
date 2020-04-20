@@ -12,7 +12,7 @@ import DeleteButton from '../component/DeleteButton'
 function PostCard(props) {
     const user = useSelector(state => state.user)
     const history = useHistory()
-    const { username, avatar, createdAt, _id,   content, likeUser } = props.data
+    const { userId , avatar, createdAt, _id,  content, likeUser } = props.data
     const [likes, setLikes ] = useState(likeUser)
     const { like, disLike, value } = useLike(likes, _id)
     
@@ -42,7 +42,7 @@ function PostCard(props) {
         <div>
             <div className="userinfo" >
                 <div className="left">
-                    <div className="username">{username}</div>
+                    <div className="username">{userId.username}</div>
                     <div className="time">{moment(createdAt).fromNow()}</div>
                 </div>
                 <div className="right">
@@ -58,7 +58,7 @@ function PostCard(props) {
                 <span>
                     <Show num={likes.length} svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
                 </span>
-                {user && user.username === username && (
+                {user && user.username === userId.username && (
                     <div className='delete'>
                         <DeleteButton id={_id} type='post' callback={props.deleteCallback}/>
                     </div>

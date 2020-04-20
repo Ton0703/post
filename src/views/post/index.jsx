@@ -11,11 +11,11 @@ import useLike from '../../hooks/useLike'
 import Comment from '../../component/Comment'
 
 function Post(props) {
-    const userId = useSelector(state => state.user.id)
+    const user = useSelector(state => state.user.id)
     const postId = props.match.params.id
     const { TextArea } = Input
     const [post, setPost] = useState({
-        username:'',
+        userId:'',
         content:'',
         createdAt: '',
         likeUser: []
@@ -23,7 +23,7 @@ function Post(props) {
     const [commentList, setCommentList] = useState([])
     const [loading, setLoading] = useState(false)
     const [input, setInput] = useState('')
-    const { username, content, createdAt, likeUser } = post
+    const { userId, content, createdAt, likeUser } = post
     useEffect(() => {
           const fetch = () => {
             axios.get(`/post/${postId}`).then(res => {
@@ -43,7 +43,7 @@ function Post(props) {
      },[postId])
 
     //判断用户是否喜欢这个帖子
-    const likePost = likeUser.includes(userId)
+    const likePost = likeUser && likeUser.includes(user)
 
     const { like, disLike, value } = useLike(likeUser, postId)
     
@@ -93,7 +93,7 @@ function Post(props) {
                         </div>
                         <div className="content-wrapper">           
                             <div className="username">
-                                <p>{username}</p>
+                                <p>{userId.username}</p>
                             </div>
                             <div className="time">发布于 {moment(createdAt).fromNow()}</div>
                             <div className='content'>{content}</div>
@@ -101,9 +101,9 @@ function Post(props) {
                                 <div className='like'>
                                     <LikeButton svg={likePost ? svg.like : svg.disLike} num={likeUser.length} onLike={onLike}/>
                                 </div>
-                                <div className="delete">
-                                    <DeleteButton id={postId} type='post' callback={callback}/>
-                                </div>
+                                {user && user === userId._id && (
+                                    <DeleteButton type='post' id={postId} callback={callback} />
+                                )}
                             </div>
                         </div>
                     </div>

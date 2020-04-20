@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import { Avatar, Input, Button, message} from 'antd'
-import axios from '../utils/axios'
 import svg from '../public/svg'
 import DeleteButton from '../component/DeleteButton'
 import Reply from '../component/Reply'
+
+import useFetchReply from '../hooks/useFetchReply'
 
 function Comment(props) {
     const user = props.user
@@ -12,32 +13,16 @@ function Comment(props) {
     
     const { content, createdAt, _id, userId, postId } = props
     const [visible, setVisible] = useState(false)
-    const [value, setValue] = useState('')
-    const [replyList, setReplyList] = useState([])
 
-    useEffect(() => {
-        axios.get(`/${_id}/reply`).then((res) => {
-            setReplyList(res)
-            console.log(res)
-        })
-    }, [props])
+    const { onChange, onSubmit, replyList, inputContent } = useFetchReply({postId, commentId: _id, callback }) 
     
+    function callback(){
+        setVisible(false)
+        message.success('回复成功')
+    }
 
     function onClick(){
         setVisible(!visible)
-    }
-    function onSubmit(e){
-        e.preventDefault()
-        axios.post(`/${postId}/discuss`, {content: value, commentId: _id}).then(res => {
-            setReplyList(res)
-            setValue('')
-            setVisible(false)
-            message.success('回复成功')
-        })
-
-    }
-    function onChange(value){
-        setValue(value)
     }
     return (
         <>                       
@@ -62,13 +47,13 @@ function Comment(props) {
                 )}
             </div>
             <div className={`reply-item  ${visible ? '' : 'visible'}`}>
-                <TextArea row={2} value={value} onChange={e => onChange(e.target.value)}/>
+                <TextArea row={2} value={inputContent}  onChange={e => onChange(e.target.value)}/>
                 <Button type='primary' className='reply' onClick={onSubmit}>回复</Button>
             </div>       
             <div className="reply-list">
                 {replyList && replyList.map((item, index) => {
                     return (
-                        <Reply {...item} key={index} commentId={_id} postId={postId}/>
+                        <Reply {...item} key={index}  postId={postId} onChange={onChange} onSubmit={onSubmit} value={inputContent}/>
                     )
                 })}
             </div>

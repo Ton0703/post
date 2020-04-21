@@ -23,5 +23,10 @@ class UserCtl {
          const token = jwt.sign({username, _id}, secret, {expiresIn: '1d'})
          ctx.body = { username,id: _id, token }
      }
+     async getLikes(ctx){
+         const userId = ctx.state.user._id
+         const user = await User.findById(userId).select('+likePosts')
+         ctx.body = user.likePosts
+     }
 }
 module.exports = new UserCtl()

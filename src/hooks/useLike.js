@@ -1,10 +1,16 @@
 //喜欢  取消喜欢
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import { useSelector } from 'react-redux'
 import axios from '../utils/axios'
 
-function useLike(initialState = [], id) {
-    const [value, setValue] = useState(initialState)
-
+function useLike(id) {
+    const userId = useSelector(state => state.user._id)
+    const [value, setValue] = useState([])
+    useEffect(() => {
+         axios.get(`/likes`).then(res => {
+             setValue(res)
+         })
+    }, [id])
     const like = () => {
         axios.put(`/post/like/${id}`).then(res => {
             setValue([...value, res])       

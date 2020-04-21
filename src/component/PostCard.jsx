@@ -12,22 +12,13 @@ import DeleteButton from '../component/DeleteButton'
 function PostCard(props) {
     const user = useSelector(state => state.user)
     const history = useHistory()
-    const { userId , avatar, createdAt, _id,  content, likeUser } = props.data
-    const [likes, setLikes ] = useState(likeUser)
-    const { like, disLike, value } = useLike(likes, _id)
+    const { userId , avatar, createdAt, _id,  content } = props.data
+
+    const { like, disLike, value } = useLike(_id)
     
     function jumpUrl(){
          history.push(`/post/${_id}`)
     }
-
-    useEffect(() => {
-        setLikes(likeUser)
-      }, [likeUser])
-
-
-    useEffect(() => {
-      setLikes(value)
-    }, [value])
      
     function onClick(e){
         e.preventDefault()
@@ -37,7 +28,7 @@ function PostCard(props) {
             like()
         )
     }
-    const likePost = likes.includes(user.id)
+    const likePost = value && value.includes(_id)
     return (      
         <div>
             <div className="userinfo" >
@@ -56,7 +47,7 @@ function PostCard(props) {
             </div>
             <div className='show-container'>
                 <span>
-                    <Show num={likes.length} svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
+                    <Show /* num={likes.length} */ svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
                 </span>
                 {user && user.username === userId.username && (
                     <div className='delete'>

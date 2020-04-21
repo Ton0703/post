@@ -4,12 +4,7 @@ const { Schema, model } = mongoose
 
 const postSchema = new Schema({
     content: { type: String, required: true },
-    userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    likeUser: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-        select: false
-    },
-    commentCount: { type: Number }
+    userId: { type: Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true,
     versionKey: false
    })

@@ -7,7 +7,7 @@ const userSchema = new Schema({
     avatar: { type: String }, 
     emails: { type: String },
     password: { type: String, required: true, select: false },
-    likeposts: {
+    likePosts: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Post'}],
         select: false
     }

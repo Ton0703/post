@@ -15,6 +15,7 @@ function UserPost(props) {
         axios.post('/post', post).then(res => {
             setPost({content: ''})
             props.setPost(res)
+            document.documentElement.scrollTop = 0
         })
     }
     return (

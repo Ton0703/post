@@ -16,11 +16,13 @@ function Post(props) {
     const [post, setPost] = useState({
         userId:'',
         content:'',
-        createdAt: '',
-        likeUsers: []
+        createdAt: ''
     })
-    const { userId, content, createdAt, likeUsers } = post
-    const { like, disLike, value, count } = useLike({id: postId, num: likeUsers.length})
+    const { userId, content, createdAt } = post
+    const { like, disLike, value } = useLike({id: postId})
+    //判断用户是否喜欢这个帖子
+    const likePost =value && value.includes(postId)
+    
     const { TextArea } = Input
     const [commentList, setCommentList] = useState([])
     const [loading, setLoading] = useState(false)
@@ -44,12 +46,7 @@ function Post(props) {
         })
      },[postId])
 
-    //判断用户是否喜欢这个帖子
-    const likePost = value && value.includes(postId)
     
-    useEffect(()=> {
-        setPost({...post, likeUser: value})
-    },[value])
     
 
     function onLike(e){

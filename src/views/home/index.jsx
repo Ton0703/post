@@ -7,6 +7,7 @@ import PostCard from '../../component/PostCard'
 import UserPost from '../../component/UserPost'
 import useFetchList from '../../hooks/useFetchData'
 import axios from '../../utils/axios'
+import useLike from '../../hooks/useLike'
 
 function Home() {      
     const location = useLocation()
@@ -14,8 +15,11 @@ function Home() {
     const { dataList ,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
        
     const username = useSelector(state => state.user.username)
-    //add Post 的回调
+
+    const { value } = useLike({id: ''})
+    console.log(value)
     
+    //add Post 的回调   
     function setPost(list){
           setDataList(list)
     }
@@ -35,7 +39,7 @@ function Home() {
                     {dataList && dataList.map((item, index) => {
                         return (
                             <div className='post-item' key={index}>
-                                <PostCard data={item} deleteCallback={DeleteCallback}/>
+                                <PostCard data={item} deleteCallback={DeleteCallback} value={value}/>
                             </div>
                         )
                     })}

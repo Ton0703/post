@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import { Avatar, Input, Button, message} from 'antd'
 import svg from '../public/svg'
-import DeleteButton from '../component/DeleteButton'
 import Reply from '../component/Reply'
 
 import useFetchReply from '../hooks/useFetchReply'

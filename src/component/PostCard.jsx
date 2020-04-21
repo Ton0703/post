@@ -1,4 +1,4 @@
-import React, {useState}  from 'react'
+import React from 'react'
 import  { useHistory } from 'react-router-dom'
 import { useSelector }  from 'react-redux'
 import moment from 'moment'
@@ -13,11 +13,12 @@ function PostCard(props) {
     const user = useSelector(state => state.user)
    
     const history = useHistory()
+    
     const { userId , avatar, createdAt, _id,  content } = props.data
 
     const { like, disLike, value } = useLike({id: _id})
 
-    const likePost = value.includes(_id)
+    const likePost = props.value.includes(_id) || value.includes(_id)
     
     function jumpUrl(){
          history.push(`/post/${_id}`)
@@ -53,7 +54,7 @@ function PostCard(props) {
             </div>
             <div className='show-container'>
                 <span>
-                    <Show svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
+                    <Show svg={ likePost ? svg.like : svg.disLike} onLike={onClick}/>
                 </span>
                 {user && user.username === userId.username && (
                     <div className='delete'>

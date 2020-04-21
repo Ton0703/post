@@ -4,7 +4,7 @@ const { secret } = require('../config.js')
 
 class UserCtl {
      async register(ctx){
-         const { username, password, confirmPassword, email } = ctx.request.body
+         const { username } = ctx.request.body
          const user = await User.findOne({username})
          if(user){
              ctx.throw(409,'用户已经存在')
@@ -25,7 +25,7 @@ class UserCtl {
      }
      async getLikes(ctx){
          const userId = ctx.state.user._id
-         const user = await User.findById(userId).select('+likePosts')
+         const user = await User.findById(userId)
          ctx.body = user.likePosts
      }
 }

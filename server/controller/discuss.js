@@ -10,7 +10,7 @@ class discussCtl {
           if(!commentId){
              await new Comment({ content, postId, userId }).save()
              const comments = await Comment.find({postId}).populate('userId').sort({_id: -1})
-             const count = await Comment.find({postId}).count()
+             const count = await Comment.find({postId}).countDocuments()
              ctx.body = comments
           } else {
              const comment = await Comment.findById(commentId).populate('userId')

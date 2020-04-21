@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState}  from 'react'
 import  { useHistory } from 'react-router-dom'
 import { useSelector }  from 'react-redux'
 import moment from 'moment'
-import { Avatar } from 'antd'
+import { Avatar, message } from 'antd'
 import useLike from '../hooks/useLike'
 import Show from './ClickButton'
 import svg from '../public/svg'
@@ -11,10 +11,13 @@ import DeleteButton from '../component/DeleteButton'
 
 function PostCard(props) {
     const user = useSelector(state => state.user)
+   
     const history = useHistory()
     const { userId , avatar, createdAt, _id,  content } = props.data
 
-    const { like, disLike, value } = useLike(_id)
+    const { like, disLike, value } = useLike({id: _id})
+
+    const likePost = value.includes(_id)
     
     function jumpUrl(){
          history.push(`/post/${_id}`)
@@ -22,13 +25,16 @@ function PostCard(props) {
      
     function onClick(e){
         e.preventDefault()
-        likePost ? (
-            disLike()
-        ) : (
-            like()
+        user.username ? (
+            likePost ? (
+               disLike()
+            ) : (
+                like()
+            )
+        )  : (
+        message.info('请先登录！')
         )
     }
-    const likePost = value && value.includes(_id)
     return (      
         <div>
             <div className="userinfo" >
@@ -43,11 +49,11 @@ function PostCard(props) {
                 </div>
             </div>
             <div className="content"  onClick={jumpUrl}>
-               <span>{content}</span>
+               <span>{content.substr(0, 40)}</span>
             </div>
             <div className='show-container'>
                 <span>
-                    <Show /* num={likes.length} */ svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
+                    <Show svg={likePost ? svg.like : svg.disLike} onLike={onClick}/>
                 </span>
                 {user && user.username === userId.username && (
                     <div className='delete'>

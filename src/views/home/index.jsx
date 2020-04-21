@@ -8,16 +8,14 @@ import UserPost from '../../component/UserPost'
 import useFetchList from '../../hooks/useFetchData'
 import axios from '../../utils/axios'
 
-function Home() {   
-    
+function Home() {      
     const location = useLocation()
 
-
     const { dataList ,setDataList, loading, pagination } = useFetchList({url: location.search, dependence: location.search})
-    
-    
+       
     const username = useSelector(state => state.user.username)
     //add Post 的回调
+    
     function setPost(list){
           setDataList(list)
     }
@@ -30,7 +28,6 @@ function Home() {
     
     return (
         <div className='home'>
-            <div className="home-header">Recent Posts</div>
             {loading ? (
                 <h1 className='loading'>Loading...</h1>
             ) : (
@@ -45,7 +42,12 @@ function Home() {
                 </div>
                 )
             }
-            <Pagination className='pagination' {...pagination} />
+            {username ? (
+                <UserPost  setPost={setPost}/>
+            ) : (
+                null
+            )}
+            <Pagination className='pagination' {...pagination}/>
         </div>
         )
     }

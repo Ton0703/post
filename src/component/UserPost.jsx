@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 import { Input, Button } from 'antd'
 import axios from '../utils/axios'
-import { useHistory } from 'react-router-dom'
+
 
 
 
 function UserPost(props) {
-    const history = useHistory()
+    const { TextArea } = Input
     const [ post, setPost ] = useState({content:''})
     const onChange = (e) => {
         setPost({...post, content: e.target.value})
@@ -15,13 +15,12 @@ function UserPost(props) {
         axios.post('/post', post).then(res => {
             setPost({content: ''})
             props.setPost(res)
-            history.push('/home')
         })
     }
     return (
         <div className='user-post'>
-            <Input value={post.content} onChange={onChange}/>
-            <Button type='primary' onClick={onClick}>提交</Button>
+            <TextArea value={post.content} onChange={onChange} rows={1} className='textInput' placeholder='请输入内容'/>
+            <Button type='primary' onClick={onClick} className='submitBut'>提交</Button>
         </div>
     )
 }

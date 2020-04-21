@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector } from 'react-redux'
 import axios from '../../utils/axios'
-import { Avatar, Input, Button, message   } from 'antd'
+import { Avatar, Input, Button, message } from 'antd'
 import moment from 'moment'
 import LikeButton from '../../component/ClickButton'
 import DeleteButton from '../../component/DeleteButton'
@@ -13,16 +13,19 @@ import Comment from '../../component/Comment'
 function Post(props) {
     const user = useSelector(state => state.user.id)
     const postId = props.match.params.id
-    const { TextArea } = Input
     const [post, setPost] = useState({
         userId:'',
         content:'',
-        createdAt: ''
+        createdAt: '',
+        likeUsers: []
     })
+    const { userId, content, createdAt, likeUsers } = post
+    const { like, disLike, value, count } = useLike({id: postId, num: likeUsers.length})
+    const { TextArea } = Input
     const [commentList, setCommentList] = useState([])
     const [loading, setLoading] = useState(false)
     const [input, setInput] = useState('')
-    const { userId, content, createdAt } = post
+
     useEffect(() => {
           const fetch = () => {
             axios.get(`/post/${postId}`).then(res => {
@@ -41,8 +44,6 @@ function Post(props) {
         })
      },[postId])
 
-    const { like, disLike, value } = useLike(postId)
-
     //判断用户是否喜欢这个帖子
     const likePost = value && value.includes(postId)
     
@@ -53,10 +54,14 @@ function Post(props) {
 
     function onLike(e){
         e.preventDefault()
-        likePost ? (
-           disLike()
+        user ?(
+            likePost ? (
+                disLike()
+             ) : (
+               like()
+             )
         ) : (
-          like()
+            message.info('请先登陆！')
         )
     }
     function callback(){
@@ -100,7 +105,7 @@ function Post(props) {
                             <div className='content'>{content}</div>
                             <div className='button'>
                                 <div className='like'>
-                                    <LikeButton svg={likePost ? svg.like : svg.disLike} /* num={} */ onLike={onLike}/>
+                                    <LikeButton svg={likePost ? svg.like : svg.disLike} onLike={onLike}/>
                                 </div>
                                 {user && user === userId._id && (
                                     <DeleteButton type='post' id={postId} callback={callback} />

@@ -8,8 +8,7 @@ const userSchema = new Schema({
     emails: { type: String },
     password: { type: String, required: true, select: false },
     likePosts: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'Post'}],
-        select: false
+        type: [{ type: Schema.Types.ObjectId, ref: 'Post'}]
     }
 },{
     timestamps: true,

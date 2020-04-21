@@ -3,17 +3,21 @@ import {useState, useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import axios from '../utils/axios'
 
-function useLike(id) {
-    const userId = useSelector(state => state.user._id)
+function useLike({id= ''}) {
+    const userId = useSelector(state => state.user.id)
     const [value, setValue] = useState([])
     useEffect(() => {
-         axios.get(`/likes`).then(res => {
-             setValue(res)
-         })
+         const fetch = () => {
+            axios.get(`/likes`).then(res => {
+                setValue(res)
+            })
+         }
+         userId && fetch()
     }, [id])
+
     const like = () => {
         axios.put(`/post/like/${id}`).then(res => {
-            setValue([...value, res])       
+            setValue([...value, res])     
           })
     }
 

@@ -7,7 +7,7 @@ class PostCtl {
     async getPosts(ctx){
         const { page = 1  } = ctx.query
         const _page = Math.max(page * 1, 1) - 1
-        const perPage = 12
+        const perPage = 9
         const post = await Post.find().sort({ _id: -1}).skip(_page * perPage).limit(perPage).select('+likeUser').populate('userId')
         const total = await Post.find().countDocuments()
         const current = page
@@ -40,22 +40,24 @@ class PostCtl {
     }
     async like(ctx){
         const userId = ctx.state.user._id
-        const user = await User.findById(userId).select('+likePosts')
-        if(!user.likePosts.includes(ctx.params.id)){
-            user.likePosts.push(ctx.params.id)
+        const postId = ctx.params.id
+        const user = await User.findById(userId)
+        if(!user.likePosts.includes(postId)){
+            user.likePosts.push(postId)
             user.save()
         }
-        ctx.body = ctx.params.id
+        ctx.body = postId
     }
     async disLike(ctx){
         const userId = ctx.state.user._id
-        const user = await User.findById(userId).select('+likePosts')
-        const index = user.likePosts.map(item => item.toString()).indexOf(ctx.params.id)
+        const postId = ctx.params.id
+        const user = await User.findById(userId)
+        const index = user.likePosts.map(item => item.toString()).indexOf(postId)
         if(index > -1){
             user.likePosts.splice(index, 1)
             user.save()
         }
-        ctx.body = ctx.params.id
+        ctx.body = postId
     }
 }
 

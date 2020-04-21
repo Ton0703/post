@@ -9,10 +9,6 @@ $color:#1296db;
     @media screen and ( max-width: 1200px) {
         padding: 0 20px;
     }
-    .home-header{
-        margin-top: 10px;
-        font-size: 1.5rem;
-    }
     .loading{
         width: 100%;
         height: 100vh;
@@ -24,10 +20,10 @@ $color:#1296db;
         display: grid;  
         width: 100%;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 150px 150px 150px 150px;
+        grid-template-rows: 150px 150px 150px;
         row-gap: 10px;
         column-gap: 10px;
-        margin-top: 10px;
+        margin-top: 30px;
 
         @media screen and ( max-width: 800px ) {
             grid-template-columns: repeat(2, 1fr); 
@@ -112,12 +108,21 @@ $color:#1296db;
 
     .pagination{
         position: absolute;
-        bottom: -60px;
+        bottom: -80px;
         margin-bottom: 10px;
     }
 
     .user-post{
-        margin-top: 100px;
+        margin-top: 40px;
+        display: flex;
+        width: 100%;
+        .textInput{
+            width: calc(100% - 80px);
+            margin-right: 10px
+       }
+       .submitBut{
+           width: 70px;
+       }
     }
 }
 

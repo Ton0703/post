@@ -5,10 +5,10 @@ $color:#1296db;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    
-    @media screen and ( max-width: 1200px) {
+    @media screen and (max-width: 1200px) {
         padding: 0 20px;
     }
+   
     .loading{
         width: 100%;
         height: 100vh;

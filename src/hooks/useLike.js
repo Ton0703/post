@@ -9,7 +9,7 @@ function useLike({id = ''}) {
     const [value, setValue] = useState([])
     useEffect(() => {
          const fetch = () => {
-            axios.get(`/likes`).then(res => {
+            axios.get(`/api/likes`).then(res => {
                 setValue(res)
             })
          }
@@ -17,14 +17,14 @@ function useLike({id = ''}) {
     }, [id])
 
     const like = () => {
-        axios.put(`/post/like/${id}`).then(res => {
+        axios.put(`/api/post/like/${id}`).then(res => {
             setValue([...value, res])
             message.success('关注成功')    
           })
     }
 
     const disLike = () => {
-        axios.delete(`/post/like/${id}`).then(res => {
+        axios.delete(`/api/post/like/${id}`).then(res => {
             /* setValue(res) */
             /* console.log(value.splice(value.findIndex(item => item === res), 1)) */
             //这里搞不懂为什么用splice不行呢

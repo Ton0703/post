@@ -10,7 +10,7 @@ function useFetchData({url = '', dependence = null}) {
 
     useEffect(() => {
         const fetch = () => {
-            axios.get(`/post${url}`).then(res => {
+            axios.get(`/api/post${url}`).then(res => {
                 setDataList(res.post)
                 setPagination({...pagination, total: res.total, current: parseInt(res.current) })
                 setLoading(false)

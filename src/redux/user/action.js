@@ -6,7 +6,7 @@ import { message } from 'antd'
 
 export function register(callback,userinfo){
     return dispatch => {
-        axios.post('/register', userinfo).then(res => {
+        axios.post('/api/register', userinfo).then(res => {
             dispatch({
                 type: TYPES.USER_REGISTER,
                 payload: res
@@ -18,7 +18,7 @@ export function register(callback,userinfo){
 }
 export function login(callback, userinfo){
     return dispatch => {
-        axios.post('/login', userinfo).then(res => {
+        axios.post('/api/login', userinfo).then(res => {
             dispatch({
                 type: TYPES.USER_LOGIN,
                 payload: res

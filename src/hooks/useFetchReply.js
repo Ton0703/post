@@ -6,7 +6,7 @@ function useFetchReply({commentId = '', postId = '', callback}) {
     const [replyList, setReplyList] = useState([])
     const [content, setContent] = useState('')
     useEffect(() => {
-       axios.get(`/${commentId}/reply`).then(res => {
+       axios.get(`/api/${commentId}/reply`).then(res => {
            setReplyList(res)
        })
     }, [commentId])
@@ -17,7 +17,7 @@ function useFetchReply({commentId = '', postId = '', callback}) {
         if(content === ''){
             message.info('请输入完整内容')
         } else {
-            axios.post(`/${postId}/discuss`, {commentId, content}).then(res => {
+            axios.post(`/api/${postId}/discuss`, {commentId, content}).then(res => {
                 console.log(res)
                 setReplyList(res)
                 if(callback) callback()

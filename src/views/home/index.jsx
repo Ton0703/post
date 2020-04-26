@@ -24,7 +24,7 @@ function Home() {
     }
    
     function DeleteCallback(){
-        axios.get(`/post${location.search}`).then(res => {
+        axios.get(`/api/post${location.search}`).then(res => {
             setDataList(res.post)
         })
     }

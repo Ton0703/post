@@ -28,7 +28,7 @@ $color:#1296db;
         .left{ 
             flex: 0 0 auto;
             
-            .home{
+            .header-home{
                 display: block;
                 height: 48px;
                 line-height: 48px;
@@ -44,16 +44,13 @@ $color:#1296db;
             flex: 0 0 auto;
             span{
                 margin-left: 10px;
+                height: 48px;
+                line-height: 48px;
+                cursor: pointer;
                 &:hover{
                     color: $color;
                     border-bottom: 3px solid $color;
                 }
-            }
-
-            .nav{
-                height: 48px;
-                line-height: 48px;
-                cursor: pointer;
             }
         }
 

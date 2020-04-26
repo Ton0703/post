@@ -16,7 +16,7 @@ function UserPost(props) {
         if(post.content === ''){
             message.info('请输入完整内容')
         } else {
-        axios.post('/post', post).then(res => {
+        axios.post('/api/post', post).then(res => {
             setPost({content: ''})
             props.setPost(res)
             document.documentElement.scrollTop = 0

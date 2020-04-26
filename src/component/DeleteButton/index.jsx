@@ -9,7 +9,7 @@ function DeleteButton({id, type, callback}) {
         setVisible(!visible)
     }
     function deleteItem(){
-        axios.delete(`/${type}/${id}`).then(
+        axios.delete(`/api/${type}/${id}`).then(
            (res) => {
                setVisible(false)
                if( callback )  callback(res) 

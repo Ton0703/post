@@ -1,10 +1,10 @@
 .form-container{
     width: 80%;
-    margin: 0 auto;
+    margin-left: 0;
     margin-top: 50px;
-
-    .form{
-       margin-right: 200px;
+    @media screen and ( max-width: 574px) {
+        width: 90%;
+        margin: 50px 20px;
     }
 
     .jumpRegister{

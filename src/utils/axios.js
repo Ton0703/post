@@ -3,8 +3,7 @@ import { message } from 'antd'
 import { getToken } from './index'
 
 // create an axios instance
-const service = axios.create({
-  baseURL: 'http://127.0.0.1:8080',  //前端地址
+const service = axios.create({ 
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
 })

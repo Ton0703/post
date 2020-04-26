@@ -30,7 +30,7 @@ function Post(props) {
 
     useEffect(() => {
           const fetch = () => {
-            axios.get(`/post/${postId}`).then(res => {
+            axios.get(`/api/post/${postId}`).then(res => {
                 setPost(res)
                 setLoading(false)
             })
@@ -41,7 +41,7 @@ function Post(props) {
     
     //获取评论
     useEffect(() => {
-        axios.get(`/${postId}/discuss`).then(res => {
+        axios.get(`/api/${postId}/discuss`).then(res => {
             setCommentList(res)
         })
      },[postId])
@@ -73,7 +73,7 @@ function Post(props) {
         if( input === ''){
             message.info('请输入内容')
         }  else {
-            axios.post(`/${postId}/discuss`, {content: input}).then(res => {
+            axios.post(`/api/${postId}/discuss`, {content: input}).then(res => {
                 setCommentList(res)
                 setInput('')
                 message.success('评论成功')

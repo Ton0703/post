@@ -8,6 +8,7 @@ function Header() {
     const history = useHistory()
     const dispatch = useDispatch()
     const path = location.pathname === '/' ? 'home' : location.pathname.substr(1)
+    console.log(path)
     
     const username = useSelector(state => state.user.username)
 
@@ -18,10 +19,11 @@ function Header() {
     function logoutUser(){
         dispatch(logout())
     }
+
     return (
         <div className='header'>
             <div className='left'>                     
-                <span  className={path === 'home' ? 'active home' : 'home'} onClick={() => jumpUrl('/')}>
+                <span  className={`header-home  ${path === 'home' ? 'active' : ''}`} onClick={() => jumpUrl('/')}>
                    {username? username : 'Home'}    
                 </span>                   
             </div>
@@ -29,8 +31,8 @@ function Header() {
                 {username ? 
                    <span className='nav' onClick={() => logoutUser()}>Logout</span> :
                    <>
-                   <span className={path === 'login' ? 'active nav' : 'nav'} onClick={() => jumpUrl('/login')}>Login</span>
-                   <span className={path === 'register' ? 'active nav' : 'nav'} onClick={() => jumpUrl('/register')}>Register</span>
+                   <span className={path === 'login' && 'active'} onClick={() => jumpUrl('/login')}>Login</span>
+                   <span className={path === 'register' && 'active'} onClick={() => jumpUrl('/register')}>Register</span>
                    </>
                  }
             </div>

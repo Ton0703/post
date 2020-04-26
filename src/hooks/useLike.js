@@ -13,8 +13,12 @@ function useLike({id = ''}) {
                 setValue(res)
             })
          }
-         userId && fetch()
-    }, [id])
+         if(userId){
+             fetch()
+         } else {
+             setValue([])
+         }
+    }, [id,userId])
 
     const like = () => {
         axios.put(`/api/post/like/${id}`).then(res => {

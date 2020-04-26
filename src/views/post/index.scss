@@ -86,6 +86,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            @media screen and (max-width: 600px){
+                margin-left: 0;
+            }
 
             span{
                 cursor: pointer;

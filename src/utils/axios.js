@@ -4,7 +4,7 @@ import { getToken } from './index'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://localhost:3000',  //前端地址
+  baseURL: 'http://127.0.0.1:8080',  //前端地址
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
 })

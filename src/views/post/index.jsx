@@ -70,12 +70,16 @@ function Post(props) {
    }
     function onSubmit(e){
         e.preventDefault()
-        axios.post(`/${postId}/discuss`, {content: input}).then(res => {
-            setCommentList(res)
-            setInput('')
-            message.success('评论成功')
-            document.documentElement.scrollTop = 0
-        })
+        if( input === ''){
+            message.info('请输入内容')
+        }  else {
+            axios.post(`/${postId}/discuss`, {content: input}).then(res => {
+                setCommentList(res)
+                setInput('')
+                message.success('评论成功')
+                document.documentElement.scrollTop = 0
+            })
+        }
     }
     function onChange(e){
         setInput(e)
@@ -113,7 +117,7 @@ function Post(props) {
                     <div className='comment-area'>
                         {user ? (
                         <div className='comment-input'>
-                            <TextArea row={4} onChange={e => onChange(e.target.value)} value={input} />
+                            <TextArea row={4} onChange={e => onChange(e.target.value.trim())} value={input} />
                             <Button type='primary' className='submit' onClick={onSubmit} >提交</Button>
                         </div>
                         ): (

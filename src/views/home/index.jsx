@@ -17,7 +17,6 @@ function Home() {
     const username = useSelector(state => state.user.username)
 
     const { value } = useLike({id: ''})
-    console.log(value)
     
     //add Post 的回调   
     function setPost(list){

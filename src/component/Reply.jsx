@@ -28,7 +28,7 @@ function Reply(props) {
                 <div className='button' onClick={onClick}>回复</div>
             </div>
             <div className={`reply-area ${ visible ? '' : 'visible'}`}>
-                <TextArea rows={2} value={value} onChange={e => onChange(e.target.value)}/>
+                <TextArea rows={2} value={value} onChange={e => onChange(e.target.value.trim())}/>
                 <Button type='primary' className='button' onClick={handleClick}>提交</Button>
             </div>
         </>
